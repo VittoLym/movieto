@@ -9,10 +9,10 @@
       </h1>
       <nav class="hidden md:flex gap-8">
         <a 
-          v-for="item in navItems"
+          v-for="item in navItems" 
+          :key="item.name"
           class="nav-link font-medium transition-opacity"
           :class="item.active ? 'text-primary font-bold' : 'text-on-surface-variant hover:text-primary'"
-          :href="item.url"
           @click="navigateTo(item.url,item.name)"
         >
           {{ item.label }}
