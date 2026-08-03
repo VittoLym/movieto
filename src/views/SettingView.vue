@@ -165,10 +165,10 @@ const router = useRouter()
 
 // User Data
 const userData = ref({
-  name: 'Alex Rivera',
-  level: 'Cinéfilo Nivel 42',
-  memberSince: 'Miembro desde 2023',
-  avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCIC0-Givt47_fH-u-AmdDVC1_383iAPxdzM8vqiN4Y4iG4nj1knbKlEL8twVS-LCJlXCjnHj-xIXMtoUIRasYiJa8LhuWyfLB716YaIyUC-4_M8-bdYCkKFzbZNCwiZKSZhoXbrA7P_EdPL6UPCRxm3CeaYqDo0v5makTxC1ROsXKJq9R_M9fqAMXZSKRy8bK8HlFlY5y8-hKGpnyOm9oRK5HuYUDqH79abS2gmFS6b_y_txAk66z1'
+  name: 'Gabriel Beningarcha',
+  level: 'Cinéfilo Nivel 23',
+  memberSince: 'Miembro desde 2026',
+  avatar: '../../public/img/avatar.jpg'
 })
 
 // Genres
