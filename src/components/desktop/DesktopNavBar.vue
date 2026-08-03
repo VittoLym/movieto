@@ -3,7 +3,7 @@
       <div class="flex items-center gap-2 md:gap-12">
         <span class="material-symbols-outlined text-primary md:hidden" style="font-variation-settings: 'FILL' 1;">movie_filter</span>
         <h1 class="font-display-lg text-[22px] md:text-[32px] text-primary tracking-tighter cursor-pointer" @click="$router.push('/')">
-          CineMatch
+          MoVi(e)tto
         </h1>
         <nav class="hidden md:flex gap-8">
           <router-link
