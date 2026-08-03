@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  background-color: #f9f9fb;
+  color: #1a1c1d;
+  -webkit-font-smoothing: antialiased;
+  min-height: max(884px, 100dvh);
+}
+
+.font-display { 
+  font-family: 'Be Vietnam Pro', sans-serif; 
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.hero-gradient {
+  background: linear-gradient(0deg, #f9f9fb 0%, rgba(249, 249, 251, 0.4) 50%, rgba(249, 249, 251, 0) 100%);
+}
+
+.glow-hover:hover {
+  box-shadow: 0 10px 25px rgba(184, 0, 11, 0.2);
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Animations */
+@keyframes fadeInSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-stagger-item {
+  opacity: 0;
+  animation: fadeInSlideUp 0.6s ease-out forwards;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer-badge {
+  background: linear-gradient(90deg, rgba(184, 0, 11, 0.2) 25%, rgba(184, 0, 11, 0.4) 50%, rgba(184, 0, 11, 0.2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite linear;
+}
+
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes pulse-soft {
+  0%, 100% { transform: scale(1); box-shadow: 0 10px 25px rgba(184, 0, 11, 0.2); }
+  50% { transform: scale(1.02); box-shadow: 0 15px 35px rgba(184, 0, 11, 0.3); }
+}
+
+.pulse-interaction {
+  animation: pulse-soft 2s infinite ease-in-out;
+}
