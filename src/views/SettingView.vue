@@ -168,7 +168,7 @@ const userData = ref({
   name: 'Gabriel Beningarcha',
   level: 'Cinéfilo Nivel 23',
   memberSince: 'Miembro desde 2026',
-  avatar: '../../dist/assets/avatar-DLJKbjCb.jpg'
+  avatar: 'img/avatar.jpg'
 })
 
 // Genres
