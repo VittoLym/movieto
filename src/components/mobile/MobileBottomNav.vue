@@ -1,36 +1,26 @@
 <template>
-  <nav class="fixed bottom-0 w-full z-50 bg-surface/90 backdrop-blur-2xl flex justify-around items-center h-20 pb-safe px-4 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] border-t border-outline/5 md:hidden">
+  <nav class="fixed bottom-0 w-full z-50 bg-surface/90 backdrop-blur-2xl border-t border-on-surface/5 shadow-[0_-4px_20px_rgba(0,0,0,0.04)] flex justify-around items-center h-20 px-4 md:hidden">
     <a 
       v-for="item in navItems" 
       :key="item.name"
-      class="flex flex-col items-center justify-center transition-all duration-300 active:scale-95"
-      :class="[
-        item.active ? 'text-primary font-bold bg-primary/10 rounded-xl px-4 py-1 scale-110' : 'text-outline hover:text-primary'
-      ]"
-      href="#"
-      @click.prevent="setActive(item.name)"
+      class="flex flex-col items-center justify-center transition-all active:scale-90 duration-300 group cursor-pointer"
+      :class="item.active ? 'text-primary font-bold bg-primary/5 rounded-xl px-4 py-1 shadow-sm' : 'text-on-surface-variant hover:text-primary'"
+      @click="navigateTo(item.url, item.name)"
     >
-      <span class="material-symbols-outlined" :style="item.active ? { fontVariationSettings: `'FILL' 1` } : {}">
+      <span 
+        class="material-symbols-outlined" 
+        :class="!item.active ? 'transition-transform group-hover:-translate-y-1' : ''" 
+        :style="item.active ? { fontVariationSettings: `'FILL' 1` } : {}"
+      >
         {{ item.icon }}
       </span>
-      <span class="font-label-md text-label-md mt-1">{{ item.label }}</span>
+      <span class="font-label-md text-[10px] uppercase font-bold mt-1">{{ item.label }}</span>
     </a>
   </nav>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { useNavigation } from '../../composable/useNavigation'
 
-const navItems = ref([
-  { name: 'home', icon: 'home', label: 'Home', active: true },
-  { name: 'discover', icon: 'auto_awesome', label: 'Discover', active: false },
-  { name: 'library', icon: 'layers', label: 'Library', active: false },
-  { name: 'settings', icon: 'settings', label: 'Settings', active: false }
-])
-
-const setActive = (name) => {
-  navItems.value.forEach(item => {
-    item.active = item.name === name
-  })
-}
+const { navItems, navigateTo } = useNavigation()
 </script>

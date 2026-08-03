@@ -30,7 +30,7 @@
         {{ heroData.description }}
       </p>
       <div class="pt-6 w-full flex justify-center md:justify-start">
-        <button class="pulse-interaction group flex items-center gap-3 bg-primary text-on-primary font-headline-md py-4 px-8 rounded-full transition-all duration-300 transform active:scale-95 shadow-xl">
+        <button @click="goToRecommendation" class="pulse-interaction group flex items-center gap-3 bg-primary text-on-primary font-headline-md py-4 px-8 rounded-full transition-all duration-300 transform active:scale-95 shadow-xl">
           <span class="material-symbols-outlined text-3xl animate-pulse">auto_awesome</span>
           <span>¡Recomiéndame algo!</span>
         </button>
@@ -62,6 +62,8 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
+const router = useRouter()
 const props = defineProps({
   heroData: {
     type: Object,
@@ -76,4 +78,7 @@ const props = defineProps({
     })
   }
 })
+function goToRecommendation() {
+  router.push('/recommendation')
+}
 </script>

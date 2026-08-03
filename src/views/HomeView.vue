@@ -1,11 +1,5 @@
 <template>
   <div class="bg-surface overflow-x-hidden pb-24 md:pb-0 text-on-surface selection:bg-primary selection:text-white">
-    <!-- Componentes Mobile -->
-    <MobileTopAppBar />
-    <MobileBottomNav />
-
-    <!-- Componentes Desktop -->
-    <DesktopNavBar />
     
     <main class="mt-0">
       <!-- Hero Section (Compartido - Responsive) -->
@@ -87,15 +81,14 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import MobileTopAppBar from '../components/mobile/MobileTopAppBar.vue'
-import MobileBottomNav from '../components/mobile/MobileBottomNav.vue'
+import { useRouter } from 'vue-router'
 import MobileMovieCard from '../components/mobile/MobileMovieCard.vue'
-import DesktopNavBar from '../components/desktop/DesktopNavBar.vue'
 import DesktopMovieCard from '../components/desktop/DesktopMovieCard.vue'
 import DesktopGenreCard from '../components/desktop/DesktopGenreCard.vue'
 import HeroSection from '../components/shared/HeroSection.vue'
 
 // Hero Data
+const router = useRouter()
 const heroData = ref({
   badge: 'Destacado',
   title: 'Crónicas del Horizonte',
@@ -178,7 +171,7 @@ const desktopGenres = ref([
 
 // Event handlers
 const handleMovieClick = (movie) => {
-  console.log('Movie clicked:', movie)
+  router.push(`/movie/${movie.id || '1'}`)
 }
 
 const handleGenreClick = (genre) => {

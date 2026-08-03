@@ -13,8 +13,8 @@
           :key="item.name"
           class="nav-link font-medium transition-opacity"
           :class="item.active ? 'text-primary font-bold' : 'text-on-surface-variant hover:text-primary'"
-          href="#"
-          @click.prevent="setActive(item.name)"
+          :href="item.url"
+          @click="navigateTo(item.url,item.name)"
         >
           {{ item.label }}
         </a>
@@ -36,51 +36,33 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { useNavigation } from '../../composable/useNavigation'
 
-const headerRef = ref(null)
-const navItems = ref([
-  { name: 'home', label: 'Home', active: true },
-  { name: 'discover', label: 'Discover', active: false },
-  { name: 'library', label: 'Library', active: false },
-  { name: 'settings', label: 'Settings', active: false }
-])
-
-const setActive = (name) => {
-  navItems.value.forEach(item => {
-    item.active = item.name === name
-  })
-}
-
-// Header scroll behavior
-let lastScroll = 0
-
-const handleScroll = () => {
-  const header = headerRef.value
-  if (!header) return
-  
-  const currentScroll = window.pageYOffset
-  
-  if (currentScroll <= 0) {
-    header.style.transform = 'translateY(0)'
-    header.classList.remove('shadow-md', 'bg-surface/95')
-    return
-  }
-  
-  if (currentScroll > lastScroll && currentScroll > 100) {
-    header.style.transform = 'translateY(-100%)'
-  } else {
-    header.style.transform = 'translateY(0)'
-    header.classList.add('shadow-md', 'bg-surface/95')
-  }
-  lastScroll = currentScroll
-}
-
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
-})
+const { navItems, navigateTo } = useNavigation()
 </script>
+
+<style scoped>
+.nav-link {
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #b8000b;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-link.text-primary::after {
+  width: 100%;
+}
+</style>

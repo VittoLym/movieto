@@ -137,3 +137,55 @@ body {
   transform: translateY(-8px) scale(1.02);
   box-shadow: 0px 12px 32px rgba(184, 0, 11, 0.15);
 }
+/* Estilos para MovieDetailView */
+.hero-gradient {
+  background: linear-gradient(to right, rgba(249, 249, 251, 1) 30%, rgba(249, 249, 251, 0.8) 50%, rgba(249, 249, 251, 0) 100%);
+}
+
+@media (max-width: 768px) {
+  .hero-gradient {
+    background: linear-gradient(to top, #f9f9fb 0%, rgba(249, 249, 251, 0.8) 40%, transparent 70%, rgba(249, 249, 251, 0.2) 100%);
+  }
+}
+
+@keyframes ken-burns {
+  0% { transform: scale(1.0); }
+  100% { transform: scale(1.1); }
+}
+
+.ken-burns {
+  animation: ken-burns 20s ease-in-out infinite alternate;
+}
+
+@keyframes soft-pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(184, 0, 11, 0.4); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(184, 0, 11, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(184, 0, 11, 0); }
+}
+
+.animate-pulse-match {
+  animation: soft-pulse 3s infinite;
+}
+/* Estilo para items activos de navegación */
+.nav-item-active {
+  @apply text-primary font-bold;
+}
+
+.nav-item-active::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: #b8000b;
+}
+
+/* Mobile active style */
+.mobile-nav-active {
+  @apply text-primary font-bold bg-primary/5 rounded-xl px-4 py-1 shadow-sm;
+}
+
+.mobile-nav-active .material-symbols-outlined {
+  font-variation-settings: 'FILL' 1;
+}
