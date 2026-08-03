@@ -1,12 +1,12 @@
 <template>
-  <div class="bg-surface overflow-x-hidden pb-24 md:pb-0 text-on-surface selection:bg-primary selection:text-white">
+  <div class=" mt-8 bg-surface overflow-x-hidden pb-24 md:pb-0 text-on-surface selection:bg-primary selection:text-white">
     
-    <main class="mt-0">
+    <main class="mt-0 pt-16 md:pt-20">
       <!-- Hero Section (Compartido - Responsive) -->
       <HeroSection :hero-data="heroData" />
 
       <!-- Dynamic Content Sections -->
-      <div class="px-margin-mobile md:px-16 space-y-12 -mt-8 md:mt-0 relative z-10">
+      <div class="px-margin-mobile md:px-16 space-y-12 -mt-8 md:mt-8 relative z-10">
         
         <!-- Tendencias Section -->
         <section>

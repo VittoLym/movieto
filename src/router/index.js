@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import RecommendationView from '@/views/RecommendationView.vue'
 import MovieDetailView from '@/views/MovieDetailView.vue'
+import LibraryView from '@/views/LibraryView.vue'
+import SettingView from '@/views/SettingView.vue'
 
 const routes = [
   {
@@ -21,12 +23,15 @@ const routes = [
   {
     path: '/library',
     name: 'library',
-    component: HomeView
+    component: LibraryView
   },
   {
     path: '/settings',
     name: 'settings',
-    component: HomeView
+    component: SettingView
+  },{
+    path: '/:pathMatch(.*)*',
+    redirect: '/'
   }
 ]
 
