@@ -1,7 +1,7 @@
 <template>
-  <div class=" mt-8 bg-surface overflow-x-hidden pb-24 md:pb-0 text-on-surface selection:bg-primary selection:text-white">
+  <div class="bg-surface overflow-x-hidden pb-24 md:pb-0 text-on-surface selection:bg-primary selection:text-white">
     
-    <main class="mt-0 pt-16 md:pt-20">
+    <main class="mt-0">
       <!-- Hero Section (Compartido - Responsive) -->
       <HeroSection :hero-data="heroData" />
 
