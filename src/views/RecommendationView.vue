@@ -14,30 +14,21 @@
 
         <!-- Info Skeleton -->
         <div class="col-span-1 md:col-span-8 lg:col-span-9 flex flex-col items-center md:items-start space-y-4 md:space-y-6 w-full">
-          <!-- Badges -->
           <div class="flex gap-3">
             <div class="h-6 w-32 bg-surface-container-highest/60 rounded-full"></div>
             <div class="h-6 w-16 bg-surface-container-highest/60 rounded-full"></div>
           </div>
-
-          <!-- Title Skeleton -->
           <div class="h-10 sm:h-14 w-3/4 bg-surface-container-highest/60 rounded-xl"></div>
-
-          <!-- Metadata Pills -->
           <div class="flex gap-3">
             <div class="h-6 w-16 bg-surface-container-highest/60 rounded-md"></div>
             <div class="h-6 w-24 bg-surface-container-highest/60 rounded-md"></div>
             <div class="h-6 w-16 bg-surface-container-highest/60 rounded-md"></div>
           </div>
-
-          <!-- Synopsis Lines -->
           <div class="space-y-2 w-full max-w-2xl">
             <div class="h-4 w-full bg-surface-container-highest/60 rounded"></div>
             <div class="h-4 w-11/12 bg-surface-container-highest/60 rounded"></div>
             <div class="h-4 w-4/5 bg-surface-container-highest/60 rounded"></div>
           </div>
-
-          <!-- Buttons Skeleton -->
           <div class="pt-2 w-full flex flex-col sm:flex-row gap-3 max-w-md md:max-w-none">
             <div class="h-12 w-full sm:w-36 bg-surface-container-highest/60 rounded-xl"></div>
             <div class="h-12 w-full sm:w-44 bg-surface-container-highest/60 rounded-xl"></div>
@@ -47,7 +38,6 @@
 
       <!-- Grid Inferior Skeleton (Desktop) -->
       <div class="hidden md:grid grid-cols-12 gap-8 pt-8">
-        <!-- Left Column Skeleton -->
         <div class="col-span-8 space-y-6">
           <div class="grid grid-cols-2 gap-6">
             <div class="h-32 bg-surface-container-highest/40 rounded-2xl"></div>
@@ -55,8 +45,6 @@
           </div>
           <div class="h-44 bg-surface-container-highest/40 rounded-2xl"></div>
         </div>
-
-        <!-- Right Column (Similares) Skeleton -->
         <div class="col-span-4">
           <div class="h-80 bg-surface-container-highest/40 rounded-2xl p-4 space-y-4">
             <div class="h-4 w-32 bg-surface-container-highest/60 rounded mb-6"></div>
@@ -70,7 +58,6 @@
           </div>
         </div>
       </div>
-
     </div>
 
     <div v-else-if="error" class="min-h-screen flex items-center justify-center p-4">
@@ -88,16 +75,15 @@
     </div>
 
     <template v-else-if="movie">
-      <!-- Hero Section Rediseñada -->
+      <!-- Hero Section -->
       <section class="relative min-h-[85vh] w-full pt-20 pb-12 md:py-24 flex items-center justify-center overflow-hidden">
         
-        <!-- Background Backdrop con Overlay Progresivo -->
+        <!-- Background Backdrop -->
         <div class="absolute inset-0 z-0">
           <div 
             class="w-full h-full bg-cover bg-center transition-all duration-700 scale-105"
-            :style="{ backgroundImage: `url('${movie.backdropPath || movie.backgroundImage}')` }"
+            :style="{ backgroundImage: `url('${movie.backdropPath || ''}')` }"
           ></div>
-          <!-- Dark Overlays para asegurar legibilidad -->
           <div class="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/40 md:bg-gradient-to-r md:from-background md:via-background/90 md:to-transparent"></div>
           <div class="absolute inset-0 bg-black/40"></div>
         </div>
@@ -106,11 +92,11 @@
         <div class="relative z-10 max-w-7xl w-full px-4 md:px-12 mx-auto">
           <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
             
-            <!-- Columna Póster (Integrada orgánicamente) -->
+            <!-- Poster -->
             <div class="col-span-1 md:col-span-4 lg:col-span-3 flex justify-center md:justify-start">
               <div class="relative group w-48 sm:w-64 md:w-full max-w-[280px] aspect-[2/3] rounded-2xl overflow-hidden shadow-2xl border border-white/10 ring-1 ring-black/20 bg-surface-container-dark">
                 <img 
-                  :src="movie.posterPath || movie.posterImage" 
+                  :src="movie.posterPath" 
                   :alt="movie.title"
                   class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   @error="handleImageError"
@@ -119,19 +105,19 @@
               </div>
             </div>
 
-            <!-- Columna Información Principal -->
+            <!-- Información Principal -->
             <div class="col-span-1 md:col-span-8 lg:col-span-9 flex flex-col items-center md:items-start text-center md:text-left space-y-4 md:space-y-6">
               
-              <!-- Match Badge & Meta Stats -->
+              <!-- Match Badge & Rating -->
               <div class="flex flex-wrap items-center justify-center md:justify-start gap-3">
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/20 border border-primary/40 text-primary font-bold text-xs uppercase tracking-wider backdrop-blur-md">
                   <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                  {{ movie.badge || '98% Match para ti' }}
+                  {{ movie.badge || 'RECOMENDACIÓN DEL DÍA' }}
                 </span>
 
-                <div class="flex items-center gap-1.5 text-amber-400 font-bold text-sm bg-black/40 px-3 py-1 rounded-full border border-white/10 backdrop-blur-md">
+                <div v-if="movie.rating" class="flex items-center gap-1.5 text-amber-400 font-bold text-sm bg-black/40 px-3 py-1 rounded-full border border-white/10 backdrop-blur-md">
                   <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                  <span class="text-white">{{ movie.rating || '4.8' }}</span>
+                  <span class="text-white">{{ movie.rating }}</span>
                 </div>
               </div>
 
@@ -140,13 +126,13 @@
                 {{ movie.title }}
               </h1>
 
-              <!-- Metadata Pills -->
+              <!-- Metadata -->
               <div class="flex flex-wrap items-center justify-center md:justify-start gap-2 sm:gap-4 text-xs sm:text-sm font-medium text-white/80">
-                <span class="bg-white/10 px-2.5 py-1 rounded-md backdrop-blur-sm">{{ movie.year || '2024' }}</span>
+                <span class="bg-white/10 px-2.5 py-1 rounded-md backdrop-blur-sm">{{ movie.year || 'N/D' }}</span>
                 <span class="w-1 h-1 bg-white/40 rounded-full"></span>
-                <span class="bg-white/10 px-2.5 py-1 rounded-md backdrop-blur-sm">{{ movie.genre || 'Ciencia Ficción' }}</span>
+                <span class="bg-white/10 px-2.5 py-1 rounded-md backdrop-blur-sm">{{ movie.genre || 'Sin categorizar' }}</span>
                 <span class="w-1 h-1 bg-white/40 rounded-full"></span>
-                <span class="bg-white/10 px-2.5 py-1 rounded-md backdrop-blur-sm">{{ movie.duration || '2h 15m' }}</span>
+                <span class="bg-white/10 px-2.5 py-1 rounded-md backdrop-blur-sm">{{ movie.duration || 'Duración no disponible' }}</span>
               </div>
 
               <!-- Sinopsis -->
@@ -154,7 +140,7 @@
                 {{ movie.synopsis }}
               </p>
 
-              <!-- Botones de Acción -->
+              <!-- Botones -->
               <div class="pt-2 w-full flex flex-col sm:flex-row items-center gap-3 sm:gap-4 max-w-md md:max-w-none">
                 <button 
                   class="w-full sm:w-auto flex-1 sm:flex-none flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-on-primary font-bold py-3.5 px-8 rounded-xl shadow-lg shadow-primary/25 transition-all active:scale-95 text-base"
@@ -183,7 +169,6 @@
               </div>
 
             </div>
-
           </div>
         </div>
       </section>
@@ -191,7 +176,7 @@
       <!-- Main Content Grid -->
       <main class="px-4 md:px-12 py-10 max-w-7xl mx-auto space-y-8">
         
-        <!-- Mobile Bento Cards (Optimizado) -->
+        <!-- Mobile Bento Cards -->
         <div class="md:hidden grid grid-cols-2 gap-3">
           <div 
             v-for="(info, index) in mobileInfoCards" 
@@ -211,10 +196,10 @@
           </div>
         </div>
 
-        <!-- Desktop Grid Completo -->
+        <!-- Desktop Grid -->
         <div class="hidden md:grid grid-cols-12 gap-8">
           
-          <!-- Detalle de la película (Columna Izquierda) -->
+          <!-- Columna Izquierda -->
           <div class="col-span-12 lg:col-span-8 space-y-6">
             
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -229,9 +214,9 @@
                   >
                     <span
                       class="w-7 h-7 rounded-lg flex items-center justify-center text-white text-xs font-extrabold shadow-sm"
-                      :style="{ backgroundColor: p.color }"
+                      :style="{ backgroundColor: p.color || '#666666' }"
                     >
-                      {{ p.icon }}
+                      {{ p.icon || p.name?.charAt(0) || '?' }}
                     </span>
                     <span class="text-sm font-bold text-on-surface">{{ p.name }}</span>
                   </div>
@@ -271,14 +256,14 @@
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   <div v-for="actor in movie.cast.slice(0, 4)" :key="actor.name" class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-variant shrink-0 ring-1 ring-outline-variant">
-                      <img v-if="actor.profilePath" :src="actor.profilePath" class="w-full h-full object-cover" :alt="actor.name" />
+                      <img v-if="actor.profilePath" :src="actor.profilePath" class="w-full h-full object-cover" :alt="actor.name" @error="handleActorImageError" />
                       <div v-else class="w-full h-full flex items-center justify-center bg-primary/10 text-primary text-xs font-bold">
-                        {{ actor.name.charAt(0) }}
+                        {{ actor.name?.charAt(0) || '?' }}
                       </div>
                     </div>
                     <div class="min-w-0">
                       <p class="font-bold text-xs text-on-surface truncate">{{ actor.name }}</p>
-                      <p class="text-[11px] text-on-surface-variant truncate">{{ actor.character }}</p>
+                      <p class="text-[11px] text-on-surface-variant truncate">{{ actor.character || 'Personaje' }}</p>
                     </div>
                   </div>
                 </div>
@@ -287,7 +272,7 @@
 
           </div>
 
-          <!-- Películas Similares (Columna Derecha) -->
+          <!-- Películas Similares -->
           <div class="col-span-12 lg:col-span-4">
             <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant/30 shadow-sm h-full">
               <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-6">Títulos Similares</h3>
@@ -350,21 +335,23 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api'
 
+// Estados
 const loading = ref(true)
 const error = ref(null)
 const movie = ref(null)
-
 const similarLoading = ref(false)
 const similarMovies = ref([])
-
 const scrolled = ref(false)
-const userAvatar = ref('img/avatar.jpg') // TODO: reemplazar por userData.avatar cuando conectemos /api/users/me acá
+
+// ============================================
+// HELPERS
+// ============================================
 
 function formatDuration(minutes) {
   if (!minutes) return 'Duración no disponible'
@@ -373,49 +360,266 @@ function formatDuration(minutes) {
   return `${h}h ${m}m`
 }
 
+function getProviderColor(name) {
+  if (!name) return '#666666'
+  const colors = {
+    'Netflix': '#E50914',
+    'HBO Max': '#002be7',
+    'Disney+': '#0063e5',
+    'Prime Video': '#ff9900',
+    'Apple TV+': '#000000',
+    'Hulu': '#1CE783',
+    'Amazon Prime Video': '#ff9900',
+    'MGM+ Apple TV Channel': '#8B0000',
+    'MGM Plus Amazon Channel': '#8B0000',
+    'Paramount+': '#0066CC',
+    'Peacock': '#FFD700',
+    'Star+': '#FF6B00',
+    'Crunchyroll': '#F47521',
+    'Max': '#002be7'
+  }
+  const lowerName = name.toLowerCase()
+  for (const [key, color] of Object.entries(colors)) {
+    if (lowerName.includes(key.toLowerCase()) || key.toLowerCase().includes(lowerName)) {
+      return color
+    }
+  }
+  return '#666666'
+}
+
 function buildMatchReasonText(matchReasons) {
   if (!matchReasons) return null
   const parts = []
-  if (matchReasons.genres.length) parts.push(`te gustan ${matchReasons.genres.join(', ')}`)
-  if (matchReasons.providers.length) parts.push(`está en ${matchReasons.providers.join(', ')}, que ya tenés conectado`)
+  if (matchReasons.genres?.length) {
+    parts.push(`te gustan ${matchReasons.genres.join(', ')}`)
+  }
+  if (matchReasons.providers?.length) {
+    parts.push(`está en ${matchReasons.providers.join(', ')}, que ya tenés conectado`)
+  }
   if (parts.length === 0) return null
   return `Te la recomendamos porque ${parts.join(' y ')}.`
 }
 
+// ============================================
+// MAP MOVIE - Versión mejorada
+// ============================================
+
 function mapMovie(raw) {
+  if (!raw) return null
+
+  // Determinar el formato de los datos
+  const isTmdb = raw.poster_path !== undefined
+  const isDbFormat = raw.poster_url !== undefined
+
+  // Si es formato TMDB
+  if (isTmdb) {
+    return {
+      id: raw.id,
+      badge: 'RECOMENDACIÓN DEL DÍA',
+      title: raw.title || 'Sin título',
+      year: raw.release_date ? new Date(raw.release_date).getFullYear() : 'N/D',
+      genre: raw.genres?.map(g => g.name).join(' / ') || 'Sin categorizar',
+      duration: formatDuration(raw.runtime),
+      rating: raw.vote_average ? raw.vote_average.toFixed(1) : null,
+      reviewCount: raw.vote_count || 0,
+      synopsis: raw.overview || 'Sin sinopsis disponible.',
+      backdropPath: raw.backdrop_path ? `https://image.tmdb.org/t/p/original${raw.backdrop_path}` : '',
+      posterPath: raw.poster_path ? `https://image.tmdb.org/t/p/w500${raw.poster_path}` : null,
+      providers: raw.watchProviders?.results?.ES?.flatrate?.map(p => ({
+        name: p.provider_name,
+        icon: p.provider_name.charAt(0),
+        color: getProviderColor(p.provider_name)
+      })) || [],
+      matchReasonText: null,
+      director: raw.credits?.crew?.find(c => c.job === 'Director')?.name || null,
+      cast: raw.credits?.cast?.slice(0, 8).map(c => ({
+        name: c.name,
+        character: c.character || 'Personaje',
+        profilePath: c.profile_path ? `https://image.tmdb.org/t/p/w185${c.profile_path}` : null
+      })) || [],
+      trailerUrl: raw.videos?.results?.find(v => v.type === 'Trailer')?.key 
+        ? `https://youtube.com/watch?v=${raw.videos.results.find(v => v.type === 'Trailer').key}` 
+        : null,
+      similarMovies: raw.similar?.results?.slice(0, 4).map(s => ({
+        id: s.id,
+        title: s.title,
+        poster_url: s.poster_path ? `https://image.tmdb.org/t/p/w200${s.poster_path}` : null,
+        genres: s.genre_ids || [],
+        avgRating: s.vote_average || 0,
+        reviewCount: s.vote_count || 0
+      })) || []
+    }
+  }
+
+  // Si es formato de nuestra base de datos
+  if (isDbFormat) {
+    // Procesar providers
+    let providers = []
+    if (raw.watchProviders && Array.isArray(raw.watchProviders)) {
+      providers = raw.watchProviders.map(p => ({
+        name: p.name || p.provider_name || 'Desconocido',
+        icon: (p.name || p.provider_name || '?').charAt(0),
+        color: getProviderColor(p.name || p.provider_name)
+      }))
+    } else if (raw.providers && Array.isArray(raw.providers)) {
+      providers = raw.providers.map(p => ({
+        name: p.name || 'Desconocido',
+        icon: (p.name || '?').charAt(0),
+        color: getProviderColor(p.name)
+      }))
+    }
+
+    // Procesar cast
+    let cast = []
+    if (raw.cast && Array.isArray(raw.cast)) {
+      cast = raw.cast.slice(0, 8).map(c => ({
+        name: c.name || 'Desconocido',
+        character: c.character || c.role || 'Personaje',
+        profilePath: c.profilePath || c.profile_path || null
+      }))
+    }
+
+    return {
+      id: raw.id,
+      badge: raw.personalized ? 'RECOMENDACIÓN PARA VOS' : 'RECOMENDACIÓN DEL DÍA',
+      title: raw.title || 'Sin título',
+      year: raw.release_year ? String(raw.release_year) : (raw.year || 'N/D'),
+      genre: raw.genres?.length ? raw.genres.join(' / ') : (raw.genre || 'Sin categorizar'),
+      duration: formatDuration(raw.duration_min || raw.runtime || raw.duration),
+      rating: raw.avgRating || raw.vote_average || raw.rating ? 
+        (raw.avgRating || raw.vote_average || raw.rating).toFixed(1) : null,
+      reviewCount: raw.reviewCount || raw.vote_count || 0,
+      synopsis: raw.overview || raw.synopsis || 'Sin sinopsis disponible.',
+      backdropPath: raw.backdrop_url || raw.backdropPath || raw.backgroundImage || '',
+      posterPath: raw.poster_url || raw.posterPath || raw.posterImage || null,
+      providers: providers,
+      matchReasonText: buildMatchReasonText(raw.matchReasons),
+      director: raw.director || null,
+      cast: cast,
+      trailerUrl: raw.trailerUrl || raw.trailer_url || null,
+      similarMovies: raw.similarMovies?.slice(0, 4).map(s => ({
+        id: s.id,
+        title: s.title,
+        poster_url: s.poster_url || s.poster_path || null,
+        genres: s.genres || [],
+        avgRating: s.avgRating || s.vote_average || 0,
+        reviewCount: s.reviewCount || s.vote_count || 0
+      })) || []
+    }
+  }
+
+  // Fallback
   return {
     id: raw.id,
-    badge: raw.personalized ? 'RECOMENDACIÓN PARA VOS' : 'RECOMENDACIÓN DEL DÍA',
-    title: raw.title,
-    year: raw.release_year ? String(raw.release_year) : 'N/D',
-    genre: raw.genres?.length ? raw.genres.join(' / ') : 'Sin categorizar',
-    duration: formatDuration(raw.duration_min),
-    rating: raw.avgRating,
-    reviewCount: raw.reviewCount,
-    synopsis: raw.overview || 'Sin sinopsis disponible.',
-    backgroundImage: raw.backdrop_url || raw.poster_url || '',
-    posterImage: raw.poster_url || null,
-    providers: raw.providers || [],
-    matchReasonText: buildMatchReasonText(raw.matchReasons),
-    director: null, // TODO: viene de TMDB credits, todavía no lo importamos
+    badge: 'RECOMENDACIÓN DEL DÍA',
+    title: raw.title || 'Sin título',
+    year: raw.release_year || raw.year || 'N/D',
+    genre: raw.genres?.join(' / ') || raw.genre || 'Sin categorizar',
+    duration: formatDuration(raw.duration_min || raw.runtime || raw.duration),
+    rating: raw.avgRating || raw.rating || null,
+    reviewCount: raw.reviewCount || 0,
+    synopsis: raw.overview || raw.synopsis || 'Sin sinopsis disponible.',
+    backdropPath: raw.backdrop_url || raw.backdropPath || raw.backgroundImage || '',
+    posterPath: raw.poster_url || raw.posterPath || raw.posterImage || null,
+    providers: raw.providers || raw.watchProviders || [],
+    matchReasonText: raw.matchReasonText || null,
+    director: raw.director || null,
+    cast: raw.cast || [],
+    trailerUrl: raw.trailerUrl || raw.trailer_url || null,
+    similarMovies: raw.similarMovies || []
   }
+}
+
+// ============================================
+// MOBILE INFO CARDS (Computed)
+// ============================================
+
+const mobileInfoCards = computed(() => {
+  if (!movie.value) return []
+  
+  const cards = []
+  
+  if (movie.value.director) {
+    cards.push({
+      label: 'Director',
+      value: movie.value.director,
+      highlight: false
+    })
+  }
+  
+  if (movie.value.cast && movie.value.cast.length) {
+    const names = movie.value.cast.slice(0, 3).map(a => a.name).join(', ')
+    cards.push({
+      label: 'Reparto',
+      value: names + (movie.value.cast.length > 3 ? '...' : ''),
+      highlight: false
+    })
+  }
+  
+  if (movie.value.providers && movie.value.providers.length) {
+    const providers = movie.value.providers.slice(0, 3).map(p => p.name).join(', ')
+    cards.push({
+      label: 'Disponible en',
+      value: providers + (movie.value.providers.length > 3 ? '...' : ''),
+      highlight: false
+    })
+  }
+  
+  if (similarMovies.value.length) {
+    const titles = similarMovies.value.slice(0, 2).map(s => s.title).join(', ')
+    cards.push({
+      label: 'Similar a',
+      value: titles + (similarMovies.value.length > 2 ? '...' : ''),
+      highlight: false
+    })
+  }
+  
+  cards.push({
+    label: 'Match',
+    value: movie.value.badge || 'Recomendación para vos',
+    highlight: true
+  })
+  
+  return cards
+})
+
+// ============================================
+// API FUNCTIONS
+// ============================================
+
+function getToken() {
+  return localStorage.getItem('token') || sessionStorage.getItem('token') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMGE2ZDhkNi0wMjhlLTQwM2QtOTc0MC02YTRmMzdlOTZkNGUiLCJpYXQiOjE3ODU5NjE5NDksImV4cCI6MTc4NjU2Njc0OX0.opiEZ3cLud8fyBX7N-bRdL1vLRMP3dTZC7oZ9jbMV1M'
+}
+
+function getAuthHeaders() {
+  const token = getToken()
+  return token ? { 'Authorization': `Bearer ${token}` } : {}
+}
+
+async function handleApiResponse(response) {
+  if (!response.ok) {
+    const body = await response.json().catch(() => ({}))
+    throw new Error(body.message || body.error || `Error ${response.status}`)
+  }
+  const data = await response.json()
+  return data.data !== undefined ? data.data : data
 }
 
 async function fetchRecommendation() {
   loading.value = true
   error.value = null
   try {
-    const token = localStorage.getItem('token') ?? 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMGE2ZDhkNi0wMjhlLTQwM2QtOTc0MC02YTRmMzdlOTZkNGUiLCJpYXQiOjE3ODU5NjE5NDksImV4cCI6MTc4NjU2Njc0OX0.opiEZ3cLud8fyBX7N-bRdL1vLRMP3dTZC7oZ9jbMV1M'
-    const res = await fetch(`${API_BASE}/movies/random`, {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-    })
-    if (!res.ok) {
-      const body = await res.json().catch(() => ({}))
-      throw new Error(body.error || `Error ${res.status}`)
-    }
-    const raw = await res.json()
+    const headers = getAuthHeaders()
+    const res = await fetch(`${API_BASE}/movies/random`, { headers })
+    const raw = await handleApiResponse(res)
     movie.value = mapMovie(raw)
-    fetchSimilarMovies(raw.id)
+    
+    // Si la película tiene similares embebidos, usarlos
+    if (movie.value?.similarMovies?.length) {
+      similarMovies.value = movie.value.similarMovies.slice(0, 3)
+    } else if (movie.value?.id) {
+      fetchSimilarMovies(movie.value.id)
+    }
   } catch (err) {
     console.error('Error obteniendo recomendación:', err)
     error.value = err.message
@@ -427,9 +631,23 @@ async function fetchRecommendation() {
 async function fetchSimilarMovies(movieId) {
   similarLoading.value = true
   try {
-    const res = await fetch(`${API_BASE}/movies/${movieId}/similar?limit=3`)
+    const headers = getAuthHeaders()
+    const res = await fetch(`${API_BASE}/movies/${movieId}/similar?limit=3`, { headers })
+    
+    // Si es 401, intentar sin autenticación
+    if (res.status === 401) {
+      const publicRes = await fetch(`${API_BASE}/movies/${movieId}/similar?limit=3`)
+      if (publicRes.ok) {
+        const data = await publicRes.json()
+        similarMovies.value = Array.isArray(data) ? data : (data.data || data || [])
+        similarLoading.value = false
+        return
+      }
+    }
+    
     if (!res.ok) throw new Error(`Error ${res.status}`)
-    similarMovies.value = await res.json()
+    const data = await handleApiResponse(res)
+    similarMovies.value = Array.isArray(data) ? data : (data.data || data || [])
   } catch (err) {
     console.error('Error obteniendo similares:', err)
     similarMovies.value = []
@@ -438,11 +656,71 @@ async function fetchSimilarMovies(movieId) {
   }
 }
 
-function goToMovie(id) {
-  router.push(`/movie/${id}`) // ajustá la ruta a como la hayas armado
+// ============================================
+// HANDLERS
+// ============================================
+
+const handleSearch = () => console.log('Search clicked')
+
+const handleWatchTrailer = () => {
+  if (movie.value?.trailerUrl) {
+    window.open(movie.value.trailerUrl, '_blank')
+  } else {
+    console.log('No trailer available')
+  }
 }
 
-function handleScroll() {
+const handleAddToList = async () => {
+  if (!movie.value?.id) return
+  try {
+    const token = getToken()
+    if (!token) {
+      alert('Inicia sesión para añadir a tu lista')
+      router.push('/login')
+      return
+    }
+    const res = await fetch(`${API_BASE}/users/watchlist`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeaders()
+      },
+      body: JSON.stringify({ movieId: movie.value.id })
+    })
+    await handleApiResponse(res)
+    console.log('Película añadida a la lista')
+  } catch (err) {
+    console.error('Error al añadir a la lista:', err)
+    alert('Error al añadir a la lista')
+  }
+}
+
+const handleTryAgain = () => fetchRecommendation()
+const handleInfoClick = (info) => console.log('Info card clicked:', info)
+
+const handleImageError = (event) => {
+  event.target.src = 'https://via.placeholder.com/300x450/1a1c1d/ffffff?text=Sin+poster'
+}
+
+const handleActorImageError = (event) => {
+  event.target.style.display = 'none'
+  const parent = event.target.parentElement
+  if (parent) {
+    const fallback = document.createElement('div')
+    fallback.className = 'w-full h-full flex items-center justify-center bg-primary/10 text-primary text-xs font-bold'
+    const name = parent.parentElement?.querySelector('.font-bold')?.textContent || '?'
+    fallback.textContent = name.charAt(0)
+    parent.appendChild(fallback)
+  }
+}
+
+const goToMovie = (id) => router.push(`/movie/${id}`)
+
+// ============================================
+// LIFECYCLE
+// ============================================
+
+const handleScroll = () => {
   scrolled.value = window.scrollY > 50
 }
 
@@ -450,21 +728,10 @@ onMounted(() => {
   fetchRecommendation()
   window.addEventListener('scroll', handleScroll)
 })
-onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 
-// Navegación
-const navItems = ref([
-  { name: 'home', label: 'Home', path: '/', active: false },
-  { name: 'discover', label: 'Discover', path: '/recommendation', active: true },
-  { name: 'library', label: 'Library', path: '/library', active: false },
-  { name: 'settings', label: 'Settings', path: '/settings', active: false },
-])
-
-// Handlers
-const handleSearch = () => console.log('Search clicked')
-const handleWatchTrailer = () => console.log('Watch trailer clicked')
-const handleAddToList = () => console.log('Added to list', movie.value?.id) // TODO: endpoint de watchlist
-const handleTryAgain = () => fetchRecommendation()
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
 
 <style scoped>
