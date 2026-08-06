@@ -10,7 +10,6 @@ body {
   background-color: #f9f9fb;
   color: #1a1c1d;
   -webkit-font-smoothing: antialiased;
-  min-height: max(884px, 100dvh);
   overflow-x: hidden;
 }
 

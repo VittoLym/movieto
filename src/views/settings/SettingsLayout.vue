@@ -78,6 +78,7 @@
                 class="flex items-center gap-3 py-2.5 px-3 rounded-lg transition-all duration-200 group"
                 active-class="bg-primary/10 text-primary font-semibold"
                 exact-active-class="bg-primary/10 text-primary font-semibold"
+                v-if="isUser"
               >
                 <span 
                   class="material-symbols-outlined text-[20px]"
@@ -124,7 +125,7 @@
       </aside>
 
       <!-- Content Area -->
-      <section class="col-span-12 md:col-span-9">
+      <section class="col-span-12 md:col-span-9 mt-10 ">
         <!-- Mobile: Título de la sección actual -->
         <div class="md:hidden mb-4 pt-2">
           <h2 class="text-xl font-bold text-on-surface">
@@ -156,16 +157,21 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, computed, onMounted } from 'vue'
+import { useAuth } from '../../composable/useAuth'
+const { user, logout } = useAuth()
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
+const router = useRouter()
 const mobileMenuOpen = ref(false)
+const isUser = computed(() => {
+    return user.value !== null
+})
 
 // Datos del usuario
-const userName = ref('Gabriel Beningarcha')
+const userName = ref('No user')
 const userAvatar = ref('/img/avatar.jpg')
-
 // Items del menú
 const menuItems = ref([
   {
@@ -228,6 +234,14 @@ const currentSectionDescription = computed(() => {
 const closeMenu = () => {
   mobileMenuOpen.value = false
 }
+onMounted(()=>{
+    if(user.value == null){
+        router.push('/login')
+    }
+    if(user.value){
+        userName.value = user.value.name ?? 'No user'
+    }
+})
 </script>
 
 <style scoped>
@@ -253,7 +267,6 @@ const closeMenu = () => {
   transform: translateX(-100%);
   animation: shimmer 2s infinite;
 }
-
 @keyframes shimmer {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(100%); }

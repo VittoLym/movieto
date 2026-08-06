@@ -1,9 +1,9 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-background px-4">
+  <div class="max-h-min flex items-center justify-center bg-background px-4">
     <div class="w-full max-w-md">
       <!-- Logo -->
       <div class="text-center mb-8">
-        <h1 class="text-4xl font-bold text-primary tracking-tighter">CineMatch</h1>
+        <h1 class="text-4xl font-bold text-primary tracking-tighter">MoVi(e)tto</h1>
         <p class="text-on-surface-variant mt-2">Crea tu cuenta gratis</p>
       </div>
 

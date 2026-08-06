@@ -17,7 +17,7 @@ export function useNavigation() {
   const updateActiveFromRoute = () => {
     const currentPath = route.path
     navItems.value.forEach(item => {
-      item.active = item.url === currentPath
+      item.active = item.url === currentPath.includes(item.url)
     })
   }
 
