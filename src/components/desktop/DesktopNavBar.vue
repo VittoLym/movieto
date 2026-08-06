@@ -21,7 +21,7 @@
       <div class="flex items-center gap-3 md:gap-6">
         <button class="material-symbols-outlined text-primary active:scale-95 transition-transform">search</button>
         <div class="w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden border-2 border-primary/20 hover:border-primary transition-colors cursor-pointer">
-          <img class="w-full h-full object-cover" alt="Profile" src="../../../public/img/avatar.jpg" />
+          <img @click="router.push('/settings')" class="w-full h-full object-cover" alt="Profile" src="/img/avatar.jpg" />
         </div>
       </div>
     </header>
@@ -29,6 +29,8 @@
 
 <script setup>
 import { useNavigation } from '../../composable/useNavigation'
+import { useRouter } from 'vue-router';
+const router = useRouter()
 
 const { navItems, navigateTo } = useNavigation()
 </script>
