@@ -5,7 +5,7 @@
       <div class="flex items-center gap-3">
         <button 
           class="p-2 rounded-lg hover:bg-surface-container transition-colors"
-          @click="mobileMenuOpen = !mobileMenuOpen"
+          @click="isValidate"
         >
           <span class="material-symbols-outlined text-2xl">
             {{ mobileMenuOpen ? 'close' : 'menu' }}
@@ -168,7 +168,9 @@ const mobileMenuOpen = ref(false)
 const isUser = computed(() => {
     return user.value !== null
 })
-
+const isValidate =()=> {
+    if(user.value!== null){mobileMenuOpen.value = !mobileMenuOpen.value}
+}
 // Datos del usuario
 const userName = ref('No user')
 const userAvatar = ref('/img/avatar.jpg')

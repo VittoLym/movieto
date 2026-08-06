@@ -65,10 +65,12 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useAuth } from '../../composable/useAuth'
 
 const { user, logout } = useAuth()
 
+const router = useRouter()
 const userData = ref({
   name: '',
   email: '',
@@ -96,6 +98,9 @@ onMounted(() => {
       memberSince: user.value.member_since || '2026',
       avatar: user.value.avatar_url || null
     }
+  }
+  if(user.value == null){
+    router.push('/login')
   }
 })
 </script>
