@@ -21,18 +21,29 @@
       <div class="flex items-center gap-3 md:gap-6">
         <button class="material-symbols-outlined text-primary active:scale-95 transition-transform">search</button>
         <div class="w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden border-2 border-primary/20 hover:border-primary transition-colors cursor-pointer">
-          <img @click="router.push('/settings')" class="w-full h-full object-cover" alt="Profile" src="/img/avatar.jpg" />
+          <img @click="router.push('/settings')" class="w-full h-full object-cover" alt="Profile" :src="fallbackAvatarUrl" />
         </div>
       </div>
     </header>
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import { useNavigation } from '../../composable/useNavigation'
 import { useRouter } from 'vue-router';
+import { useAuth } from '@/composable/useAuth';
 const router = useRouter()
 
 const { navItems, navigateTo } = useNavigation()
+const { user } = useAuth()
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api'
+const BACKEND_ORIGIN = API_BASE.replace(/\/api\/?$/, '')
+const fallbackAvatarUrl = computed(() => {
+  if (user.value?.avatar_url) {
+    return user.value.avatar_url.startsWith('http') ? user.value.avatar : `${BACKEND_ORIGIN}${user.value.avatar_url}`
+  }
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(user.value?.name || 'U')}&background=b8000b&color=fff&size=128`
+})
 </script>
 
 <style scoped>

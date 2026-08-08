@@ -53,6 +53,7 @@ export function useAuth() {
       
       setToken(token, credentials.rememberMe || false)
       user.value = userDataResponse
+      console.log(user.value)
       localStorage.setItem('user', JSON.stringify(userDataResponse))
       
       return { success: true, user: userDataResponse }

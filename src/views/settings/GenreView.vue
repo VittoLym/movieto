@@ -6,45 +6,118 @@
       <p class="font-body-lg text-on-surface-variant text-[16px] mt-2">Selecciona tus géneros preferidos para mejorar las recomendaciones.</p>
     </div>
 
-    <!-- Content -->
-    <div class="flex flex-wrap gap-3">
-      <button 
-        v-for="genre in genres" 
-        :key="genre.name"
-        class="glass-panel px-4 py-2 rounded-full font-label-md transition-all hover:scale-105 active:scale-95"
-        :class="genre.active ? 'text-primary border-primary bg-primary/5' : 'text-on-surface-variant hover:text-primary hover:border-primary'"
-        @click="toggleGenre(genre)"
-      >
-        {{ genre.name }}
-      </button>
-      <button class="w-10 h-10 flex items-center justify-center rounded-full glass-panel text-on-surface-variant hover:text-primary hover:scale-110 active:scale-90 transition-all">
-        <span class="material-symbols-outlined">add</span>
-      </button>
+    <!-- Loading -->
+    <div v-if="loading" class="text-on-surface-variant text-sm">Cargando tus géneros...</div>
+
+    <!-- Error -->
+    <div v-else-if="loadError" class="p-4 bg-error/5 rounded-2xl border border-error/20 text-error text-sm">
+      No pudimos cargar tus géneros: {{ loadError }}
+      <button class="ml-2 underline font-bold" @click="fetchGenres">Reintentar</button>
     </div>
 
-    <div class="mt-6 p-4 bg-primary/5 rounded-2xl border border-primary/20">
-      <p class="text-sm text-on-surface-variant">
-        <span class="font-bold text-primary">Tip:</span> Selecciona al menos 3 géneros para obtener mejores recomendaciones personalizadas.
-      </p>
-    </div>
+    <!-- Content -->
+    <template v-else>
+      <div class="flex flex-wrap gap-3">
+        <button
+          v-for="genre in genres"
+          :key="genre.name"
+          class="glass-panel px-4 py-2 rounded-full font-label-md transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:pointer-events-none"
+          :class="genre.active ? 'text-primary border-primary bg-primary/5' : 'text-on-surface-variant hover:text-primary hover:border-primary'"
+          :disabled="genre.saving"
+          @click="toggleGenre(genre)"
+        >
+          {{ genre.name }}
+        </button>
+      </div>
+
+      <p v-if="toggleError" class="text-error text-sm mt-3">{{ toggleError }}</p>
+
+      <div
+        class="mt-6 p-4 rounded-2xl border"
+        :class="activeCount >= 3 ? 'bg-primary/5 border-primary/20' : 'bg-error/5 border-error/20'"
+      >
+        <p class="text-sm text-on-surface-variant">
+          <span class="font-bold" :class="activeCount >= 3 ? 'text-primary' : 'text-error'">
+            {{ activeCount >= 3 ? '¡Listo!' : 'Tip:' }}
+          </span>
+          {{
+            activeCount >= 3
+              ? `Tenés ${activeCount} géneros activos, suficientes para recomendaciones personalizadas.`
+              : `Seleccioná al menos 3 géneros (tenés ${activeCount}) para obtener mejores recomendaciones personalizadas.`
+          }}
+        </p>
+      </div>
+    </template>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { getToken } from '../../services/api'
 
-const genres = ref([
-  { name: 'Sci-Fi', active: true },
-  { name: 'Drama', active: false },
-  { name: 'Thriller', active: true },
-  { name: 'Acción', active: false },
-  { name: 'Terror', active: true },
-  { name: 'Comedia', active: false }
-])
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api'
 
-const toggleGenre = (genre) => {
-  genre.active = !genre.active
+const genres = ref([])
+const loading = ref(true)
+const loadError = ref(null)
+const toggleError = ref(null)
+
+const activeCount = computed(() => genres.value.filter((g) => g.active).length)
+
+async function fetchGenres() {
+  loading.value = true
+  loadError.value = null
+  try {
+    const token = getToken()
+    const res = await fetch(`${API_BASE}/users/me/genres`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}))
+      throw new Error(body.error || `Error ${res.status}`)
+    }
+    const data = await res.json() // [{ name, active }]
+    genres.value = data.map((g) => ({ ...g, saving: false }))
+  } catch (err) {
+    loadError.value = err.message
+  } finally {
+    loading.value = false
+  }
 }
+
+// Toggle optimista: cambia en pantalla al instante, y si el PUT falla,
+// revierte solo ese género y muestra el error — no bloquea al usuario
+// esperando la respuesta del server para ver el cambio.
+async function toggleGenre(genre) {
+  toggleError.value = null
+  const previous = genre.active
+  genre.active = !genre.active
+  genre.saving = true
+
+  try {
+    const token = getToken()
+    const res = await fetch(`${API_BASE}/users/me/genres/${encodeURIComponent(genre.name)}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ active: genre.active }),
+    })
+
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}))
+      throw new Error(body.error || `Error ${res.status}`)
+    }
+  } catch (err) {
+    genre.active = previous // rollback
+    toggleError.value = `No se pudo actualizar "${genre.name}": ${err.message}`
+  } finally {
+    genre.saving = false
+  }
+}
+
+onMounted(fetchGenres)
 </script>
 
 <style scoped>

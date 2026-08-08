@@ -174,7 +174,7 @@
       </section>
 
       <!-- Main Content Grid -->
-      <main class="px-4 md:px-12 py-10 max-w-7xl mx-auto space-y-8">
+      <main class="px-4 md:px-12 py-10 mx-auto space-y-8 max-w-[1200px]">
         
         <!-- Mobile Bento Cards -->
         <div class="md:hidden grid grid-cols-2 gap-3">
@@ -200,9 +200,9 @@
         <div class="hidden md:grid grid-cols-12 gap-8">
           
           <!-- Columna Izquierda -->
-          <div class="col-span-12 lg:col-span-8 space-y-6">
+          <div class="col-span-12 lg:col-span-8 space-y-6 flex flex-col justify-between">
             
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 min-h-52">
               <!-- Disponible en -->
               <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant/30 shadow-sm">
                 <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4">Disponible en</h3>
@@ -235,7 +235,7 @@
               
               <div
                 v-else
-                class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant/30 shadow-sm flex flex-col justify-center"
+                class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant/30 shadow-sm flex flex-col start"
               >
                 <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">Calificación de la comunidad</h3>
                 <p class="text-2xl font-black text-on-surface">
@@ -245,7 +245,7 @@
             </div>
 
             <!-- Director & Reparto -->
-            <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant/30 shadow-sm space-y-6">
+            <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant/30 shadow-sm space-y-6 min-h-56">
               <div v-if="movie.director">
                 <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">Dirección</h3>
                 <p class="text-lg font-bold text-on-surface">{{ movie.director }}</p>

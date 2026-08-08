@@ -14,7 +14,7 @@
         <h1 class="font-bold text-lg text-primary">Ajustes</h1>
       </div>
       <div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
-        <img class="w-full h-full object-cover" alt="Profile" :src="userAvatar" />
+        <img class="w-full h-full object-cover" alt="Profile" :src="fallbackAvatarUrl" />
       </div>
     </header>
 
@@ -49,7 +49,7 @@
         <div class="p-4 border-t border-outline-variant/20 mt-2">
           <div class="flex items-center gap-3 p-3 rounded-xl bg-surface-container-low">
             <div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant">
-              <img class="w-full h-full object-cover" alt="Profile" :src="userAvatar" />
+              <img class="w-full h-full object-cover" alt="Profile" :src="fallbackAvatarUrl" />
             </div>
             <div>
               <p class="font-semibold text-sm text-on-surface">{{ userName }}</p>
@@ -96,6 +96,12 @@
                 >
                   {{ item.label }}
                 </span>
+                <span
+                  v-if="item.comingSoon"
+                  class="text-[10px] font-bold uppercase tracking-wide text-primary bg-primary/10 px-2 py-0.5 rounded-full"
+                >
+                  Próximamente
+                </span>
               </RouterLink>
             </nav>
           </div>
@@ -104,7 +110,7 @@
           <div class="p-5 rounded-lg bg-surface-container-lowest border border-outline-variant/50 flex flex-col gap-4">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant">
-                <img class="w-full h-full object-cover" alt="Profile" :src="userAvatar" />
+                <img class="w-full h-full object-cover" alt="Profile" :src="fallbackAvatarUrl" />
               </div>
               <div>
                 <p class="font-semibold text-[15px] text-on-surface leading-tight">{{ userName }}</p>
@@ -168,49 +174,56 @@ const mobileMenuOpen = ref(false)
 const isUser = computed(() => {
     return user.value !== null
 })
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api'
+const BACKEND_ORIGIN = API_BASE.replace(/\/api\/?$/, '')
 const isValidate =()=> {
     if(user.value!== null){mobileMenuOpen.value = !mobileMenuOpen.value}
 }
 // Datos del usuario
 const userName = ref('No user')
-const userAvatar = ref('/img/avatar.jpg')
 // Items del menú
 const menuItems = ref([
   {
     label: 'Perfil',
     icon: 'person',
     to: '/settings/profile',
-    description: 'Tu información personal'
+    description: 'Tu información personal',
+    comingSoon: false
   },
   {
     label: 'Géneros',
     icon: 'movie_filter',
     to: '/settings/genres',
-    description: 'Tus géneros favoritos'
+    description: 'Tus géneros favoritos',
+    comingSoon: false
   },
   {
     label: 'Streaming',
     icon: 'subscriptions',
     to: '/settings/streaming',
-    description: 'Servicios conectados'
+    description: 'Servicios conectados',
+    comingSoon: false
   },
   {
     label: 'Notificaciones',
     icon: 'notifications',
     to: '/settings/notifications',
-    description: 'Alertas y preferencias'
+    description: 'Alertas y preferencias',
+    comingSoon: true
   },
   {
     label: 'Cuenta',
     icon: 'manage_accounts',
     to: '/settings/account',
-    description: 'Correo y contraseña'
+    description: 'Correo y contraseña',
+    comingSoon: false
   },
   {
     label: 'Privacidad',
     icon: 'lock',
     to: '/settings/privacy',
-    description: 'Seguridad y visibilidad'
+    description: 'Seguridad y visibilidad',
+    comingSoon: true
   }
 ])
 
@@ -231,7 +244,12 @@ const currentSectionDescription = computed(() => {
   const current = menuItems.value.find(item => item.to === route.path)
   return current?.description || ''
 })
-
+const fallbackAvatarUrl = computed(() => {
+  if (user.value?.avatar_url) {
+    return user.value.avatar_url.startsWith('http') ? user.value.avatar : `${BACKEND_ORIGIN}${user.value.avatar_url}`
+  }
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(user.value?.name || 'U')}&background=b8000b&color=fff&size=128`
+})
 // Cerrar menú al cambiar de ruta
 const closeMenu = () => {
   mobileMenuOpen.value = false
